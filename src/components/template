@@ -1,0 +1,23 @@
+<template>
+  <div :class="s.wrapper">
+      
+  </div>
+</template>
+<script>
+import { ref, toRefs, reactive, defineComponent, onMounted } from "vue";
+
+export default defineComponent({
+    setup() {
+        const data = reactive({
+      })
+      return {
+        ...toRefs(data)
+      }
+    }
+})
+</script>
+<style scoped module='s'>
+.wrapper {
+    
+}
+</style>

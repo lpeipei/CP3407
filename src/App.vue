@@ -1,9 +1,48 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
+import { toRefs, reactive, defineComponent, onMounted } from "vue";
+import { useRouter , useRoute } from 'vue-router'
+export default defineComponent({
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+    const data = reactive({
+        activeIndex: 4,
+        routerList: [
+          { icon: 'wap-home-o',  linkName: 'schedule' },
+          { icon: 'clock-o', linkName: 'focusTime' },
+          { icon: 'goods-collect-o', linkName: 'dailyRecord' },
+          { icon: 'notes-o', linkName: 'timetable' },
+          { icon: 'contact-o', linkName: 'user' },
+        ]
+    })
+    const goPage = (item, index) => {
+        data.activeIndex = index
+        router.push({ name: item.linkName })
+    }
+    const onChange = (index) => {
+        router.push({ name: data.routerList[index].linkName })
+    }
+    onMounted(() => {
+        console.log(route, 'xx')
+    })
+
+    return {
+      ...toRefs(data),
+      route,
+      goPage,
+      onChange
+    }
+  }
+})
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <RouterView />
+    <van-tabbar v-model="activeIndex" @change="onChange" v-if="route.name !== 'login'">
+      <van-tabbar-item :icon="item.icon" v-for="item in routerList"></van-tabbar-item>
+    </van-tabbar>
+  </div>
 </template>
 
 <style scoped>
